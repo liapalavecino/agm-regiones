@@ -84,7 +84,7 @@ public class Main {
 		diseñandoRegiones = new JFrame();
 		diseñandoRegiones.setBackground(new Color(240, 240, 240));
 		diseñandoRegiones.setResizable(false);
-		diseñandoRegiones.setBounds(400, 200, 710, 500);
+		diseñandoRegiones.setBounds(410, 160, 710, 500);
 		diseñandoRegiones.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		diseñandoRegiones.getContentPane().setLayout(null);
 		diseñandoRegiones.setFocusable(true);
