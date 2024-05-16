@@ -324,7 +324,11 @@ public class Main {
 //
 //		dibujarArista();
 //	}
-
+	
+    public void mostrarVentanaPrincipal() {
+        diseñandoRegiones.setVisible(true);
+    }
+    
 	public void AGM() {
 	}
 

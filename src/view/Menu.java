@@ -53,8 +53,6 @@ public class Menu {
 
 	private void crearMenu() {
 		crearVentana();		
-
-//		insertarImagenDeFondo();
 	}
 
 	private void crearVentana() {
@@ -83,17 +81,19 @@ public class Menu {
 	}
 
 	private void crearBotonIniciar() {
-		botonIniciar = new JButton("Iniciar");
-		botonIniciar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ventanaMapa.setVisible(true);
-				ventana.setVisible(false);
-			}
-		});
-		botonIniciar.setFocusable(false);
-		botonIniciar.setAlignmentX(Component.CENTER_ALIGNMENT);
-		botonIniciar.setBounds(222, 175, 149, 42);
-		ventana.getContentPane().add(botonIniciar);
+	    botonIniciar = new JButton("Iniciar");
+	    botonIniciar.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e) {
+	            ventana.setVisible(false);
+	            Main main = new Main();
+	            main.mostrarVentanaPrincipal();
+	        }
+	    });
+	    
+	    botonIniciar.setFocusable(false);
+	    botonIniciar.setAlignmentX(Component.CENTER_ALIGNMENT);
+	    botonIniciar.setBounds(222, 175, 149, 42);
+	    ventana.getContentPane().add(botonIniciar);
 	}
 
 }
