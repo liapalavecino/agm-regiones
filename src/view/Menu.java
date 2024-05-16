@@ -49,13 +49,12 @@ public class Menu {
 	 */
 	public void initialize() {
 		crearMenu();
-		eventoBotonJugar();
 	}
 
 	private void crearMenu() {
 		crearVentana();		
-		crearBotonJugar();
-		insertarImagenDeFondo();
+
+//		insertarImagenDeFondo();
 	}
 
 	private void crearVentana() {
@@ -68,15 +67,22 @@ public class Menu {
 		ventana = new JFrame();
 		ventana.setResizable(false);
 		ventana.setPreferredSize(new Dimension(600, 475));
-		ventana.getContentPane().setBackground(new Color(51, 0, 102));
+		ventana.getContentPane().setBackground(new Color(0, 0, 0));
 		ventana.setTitle("Diseñando regiones");
 		ventana.setBounds(100, 100, 601, 475);
 		ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		ventana.getContentPane().setLayout(null);
 		ventana.setLocationRelativeTo(null);
+		
+		crearBotonIniciar();
+		
+		JLabel fondoMenu = new JLabel();
+		fondoMenu.setIcon(new ImageIcon("src/view/tierra.png")); 
+		fondoMenu.setBounds(15, 0, 495, 400);
+		ventana.getContentPane().add(fondoMenu);
 	}
 
-	private void crearBotonJugar() {
+	private void crearBotonIniciar() {
 		botonIniciar = new JButton("Iniciar");
 		botonIniciar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -86,30 +92,8 @@ public class Menu {
 		});
 		botonIniciar.setFocusable(false);
 		botonIniciar.setAlignmentX(Component.CENTER_ALIGNMENT);
-		botonIniciar.setBounds(222, 250, 149, 42);
+		botonIniciar.setBounds(222, 175, 149, 42);
 		ventana.getContentPane().add(botonIniciar);
 	}
 
-
-	private void eventoBotonJugar() {
-		botonIniciar.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
-				ventanaMapa = new Main();
-				ventanaMapa.setVisible(true);
-				ventana.setVisible(false);
-			}
-		});
-	}
-
-
-
-	private void insertarImagenDeFondo() {
-		JLabel fondoMenu = new JLabel();
-		fondoMenu.setIcon(new ImageIcon("src/interfaz/img/tierra-menu.jpg"));
-		fondoMenu.setBounds(0, 0, 684, 480);
-		ventana.getContentPane().add(fondoMenu);
-	}
-
 }
-
