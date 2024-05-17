@@ -149,7 +149,7 @@ public class Main {
 		diseñandoRegiones.getContentPane().add(textField_Regiones);
 		textField_Regiones.setColumns(10);
 
-		btnSepararRegiones = new JButton("Aceptar");
+		btnSepararRegiones = new JButton("Crear");
 		btnSepararRegiones.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnSepararRegiones.setBounds(90, 282, 94, 23);
 		diseñandoRegiones.getContentPane().add(btnSepararRegiones);
