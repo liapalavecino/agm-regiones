@@ -215,85 +215,18 @@ public class Main {
 		}
 		});
 
-		btnSepararRegiones.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				try {
-				int eliminarAristas = Integer.parseInt(textField_Regiones.getText()) - 1;
-				if(eliminarAristas<1) {
-					JOptionPane.showMessageDialog(diseñandoRegiones, "Por favor, ingrese un número válido.");
-				}
-				for (int j = 1; j <= eliminarAristas; j++) {
-					Arista aristaDeMayorPeso = aristasAGM.get(0);
-					int indice = 0;
-					for (int i = 0; i < aristasAGM.size(); i++) {
-						Arista aristaAGM = aristasAGM.get(i);
-						if (aristaAGM.consultarSimilaridad() > aristaDeMayorPeso.consultarSimilaridad()) {
-							aristaDeMayorPeso = aristaAGM;
-							indice = i;
-						}
-					}
-					aristasAGM.remove(indice);
-				}
-
-				mapa.removeAllMapPolygons();
-				for (Arista aristaAGM : aristasAGM) {
-					ArrayList<Coordinate> coordenadasLineaAGM = new ArrayList<>();
-	    			coordenadasLineaAGM.add(ciudades.get(aristaAGM.consultarOrigen()).consultarCoordenada());
-	    			coordenadasLineaAGM.add(ciudades.get(aristaAGM.consultarDestino()).consultarCoordenada());
-	    			coordenadasLineaAGM.add(ciudades.get(aristaAGM.consultarDestino()).consultarCoordenada());
-					MapPolygonImpl linea = new MapPolygonImpl(coordenadasLineaAGM);
-					linea.setColor(Color.MAGENTA);
-					mapa.addMapPolygon(linea);
-				}
-			}catch (NumberFormatException e){
-				  JOptionPane.showMessageDialog(diseñandoRegiones, "Por favor, ingrese un número válido.");
-			}
-			}
-		});
-
-		btnAGM.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-
-				grafoAGM = new GrafoPonderado();
-//				for (Provincia provincia : provincias.values()) {
-//					 grafoAGM.agregarProvincia(provincia);
-//				}
-
-				for ( int vertice  : grafo.consultarVertices()) {
-					grafoAGM.agregarVertice(vertice);
-				}
-				
-				for (Arista arista : grafo.consultarAristas()) {
-					grafoAGM.agregarArista(arista.consultarOrigen(), arista.consultarDestino(),
-							arista.consultarSimilaridad());
-				}
-				
-				Kruskal kruskal = new Kruskal(grafoAGM);
-				
-				aristasAGM = kruskal.obtenerAGM().consultarAristas();
-				
-				for (Arista aristaAGM : aristasAGM) {
-					ArrayList<Coordinate> coordenadasLineaAGM = new ArrayList<>();
-					int coordenadaOrigen = kruskal.obtenerAGM().consultarVertices().indexOf(aristaAGM.consultarOrigen());
-					int coordenadaDestino = kruskal.obtenerAGM().consultarVertices().indexOf(aristaAGM.consultarDestino());
-					coordenadasLineaAGM.add(ciudades.get(coordenadaOrigen).consultarCoordenada());
-					coordenadasLineaAGM.add(ciudades.get(coordenadaDestino).consultarCoordenada());
-					coordenadasLineaAGM.add(ciudades.get(coordenadaDestino).consultarCoordenada());
-					MapPolygonImpl linea = new MapPolygonImpl(coordenadasLineaAGM);
-					linea.setColor(Color.RED);
-					mapa.addMapPolygon(linea);
-				}
-			}
-		});
 		mapa.setDisplayPosition(coordenadaInicial, 4);
 
 		similaridadCoordenadas = new ArrayList<>();
 		detectarVertices();
 	//	agregarCiudades();
 		AGM();
-		dividirEnRegiones();
-
+		crearRegiones();
 	}
+	
+    public void mostrarVentanaPrincipal() {
+        diseñandoRegiones.setVisible(true);
+    }
 
 	private void detectarVertices() {
 		ciudades = new HashMap<>();
@@ -329,13 +262,91 @@ public class Main {
 //		dibujarArista();
 //	}
 	
-    public void mostrarVentanaPrincipal() {
-        diseñandoRegiones.setVisible(true);
-    }
+
     
 	public void AGM() {
+		btnAGM.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				grafoAGM = new GrafoPonderado();
+//				for (Provincia provincia : provincias.values()) {
+//					 grafoAGM.agregarProvincia(provincia);
+//				}
+
+				for ( int vertice  : grafo.consultarVertices()) {
+					grafoAGM.agregarVertice(vertice);
+				}
+				
+				for (Arista arista : grafo.consultarAristas()) {
+					grafoAGM.agregarArista(arista.consultarOrigen(), arista.consultarDestino(),
+							arista.consultarSimilaridad());
+				}
+				
+				Kruskal kruskal = new Kruskal(grafoAGM);
+				
+				aristasAGM = kruskal.obtenerAGM().consultarAristas();
+				
+				for (Arista aristaAGM : aristasAGM) {
+					ArrayList<Coordinate> coordenadasLineaAGM = new ArrayList<>();
+					int coordenadaOrigen = kruskal.obtenerAGM().consultarVertices().indexOf(aristaAGM.consultarOrigen());
+					int coordenadaDestino = kruskal.obtenerAGM().consultarVertices().indexOf(aristaAGM.consultarDestino());
+					coordenadasLineaAGM.add(ciudades.get(coordenadaOrigen).consultarCoordenada());
+					coordenadasLineaAGM.add(ciudades.get(coordenadaDestino).consultarCoordenada());
+					coordenadasLineaAGM.add(ciudades.get(coordenadaDestino).consultarCoordenada());
+					MapPolygonImpl linea = new MapPolygonImpl(coordenadasLineaAGM);
+					linea.setColor(Color.RED);
+					mapa.addMapPolygon(linea);
+				}
+			}
+		});
 	}
 
-	private void dividirEnRegiones() {
+	private void crearRegiones() {
+		btnSepararRegiones.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					int eliminarAristas = Integer.parseInt(textField_Regiones.getText()) - 1;
+					if (eliminarAristas < 1) {
+						JOptionPane.showMessageDialog(diseñandoRegiones, "Por favor, ingrese un número válido.");
+					}
+
+					for (int j = 1; j <= eliminarAristas; j++) {
+						Arista aristaDeMayorPeso = aristasAGM.get(0);
+						int indice = 0;
+						for (int i = 0; i < aristasAGM.size(); i++) {
+							Arista aristaAGM = aristasAGM.get(i);
+							if (aristaAGM.consultarSimilaridad() > aristaDeMayorPeso.consultarSimilaridad()) {
+								aristaDeMayorPeso = aristaAGM;
+								indice = i;
+							}
+						}
+						aristasAGM.remove(indice);
+					}
+
+					mapa.removeAllMapPolygons();
+
+					for (Arista aristaAGM : aristasAGM) {
+						ArrayList<Coordinate> coordenadasLineaAGM = new ArrayList<>();
+						if (ciudades.get(aristaAGM.consultarOrigen()) == null) {
+							throw new NullPointerException("Ciudad origen no encontrada para: " + aristaAGM.consultarOrigen());
+						}
+						if (ciudades.get(aristaAGM.consultarDestino()) == null) {
+							throw new NullPointerException("Ciudad destino no encontrada para: " + aristaAGM.consultarDestino());
+						}
+
+						coordenadasLineaAGM.add(ciudades.get(aristaAGM.consultarOrigen()).consultarCoordenada());
+						coordenadasLineaAGM.add(ciudades.get(aristaAGM.consultarDestino()).consultarCoordenada());
+						coordenadasLineaAGM.add(ciudades.get(aristaAGM.consultarDestino()).consultarCoordenada());
+						MapPolygonImpl linea = new MapPolygonImpl(coordenadasLineaAGM);
+						linea.setColor(Color.MAGENTA);
+						mapa.addMapPolygon(linea);
+					}
+				} catch (NumberFormatException e) {
+					JOptionPane.showMessageDialog(diseñandoRegiones, "Por favor, ingrese un número válido.");
+				} catch (NullPointerException e) {
+					JOptionPane.showMessageDialog(diseñandoRegiones, e.getMessage());
+				}
+			}
+		});
 	}
 }

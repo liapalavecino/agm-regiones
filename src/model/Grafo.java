@@ -40,9 +40,10 @@ public class Grafo {
 	}
 
 	private void validarVertices(ArrayList<Integer> vertices) {
-//		if (vertices.size() < 1) {
-//			throw new IllegalArgumentException("El grafo debe tener al menos un vértice");
-//		}
+		if (vertices.size() <= 1) {
+
+
+		}
 		for (Integer ciudad : vertices) {
 			if (ciudad == null) {
 				throw new IllegalArgumentException("Al menos un vértice o arista es null");
