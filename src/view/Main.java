@@ -136,7 +136,7 @@ public class Main {
 
 		btnAGM = new JButton("Mostrar AGM");
 		btnAGM.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnAGM.setBounds(79, 430, 126, 23);
+		btnAGM.setBounds(77, 411, 126, 23);
 		diseñandoRegiones.getContentPane().add(btnAGM);
 
 		JLabel lblCantidadRegiones = new JLabel("Cantidad de regiones");
@@ -158,91 +158,62 @@ public class Main {
 		btnCrearArista.setBounds(90, 178, 94, 23);
 		diseñandoRegiones.getContentPane().add(btnCrearArista);
 
-		btnCrearArista.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent arg0) {
-				try {
-					if (comboBoxCiudad1.getSelectedIndex() == -1 || comboBoxCiudad2.getSelectedIndex() == -1) {
-						JOptionPane.showMessageDialog(diseñandoRegiones, "Por favor, seleccione ambas coordenadas.");
-						return;
-					}
-
-					Ciudades ciudad1 = ciudades.get(comboBoxCiudad1.getSelectedIndex());
-					Ciudades ciudad2 = ciudades.get(comboBoxCiudad2.getSelectedIndex());
-
-					if (ciudad1 == null || ciudad2 == null) {
-						JOptionPane.showMessageDialog(diseñandoRegiones, "Selección de ciudad inválida.");
-						return;
-					}
-
-					if (ciudad1.equals(ciudad2)) {
-						JOptionPane.showMessageDialog(diseñandoRegiones,
-								"No se permite crear un loop. Seleccione diferentes ciudades para origen y destino.");
-						return;
-					}
-
-					Coordinate coordenada1 = ciudad1.consultarCoordenada();
-					Coordinate coordenada2 = ciudad2.consultarCoordenada();
-
-					int similaridad;
-					try {
-						similaridad = Integer.parseInt(indiceSimilitud.getText());
-						if (similaridad <= 0) {
-							JOptionPane.showMessageDialog(diseñandoRegiones,
-									"Por favor, ingrese una similaridad válida mayor a 0.");
-							return;
-						}
-					} catch (NumberFormatException e) {
-						JOptionPane.showMessageDialog(diseñandoRegiones, "Por favor, ingrese una similaridad válida.");
-						return;
-					}
-
-					// Crear la arista y agregarla al grafo
-					ArrayList<Coordinate> coordenadasLinea = new ArrayList<>();
-					coordenadasLinea.add(coordenada1);
-					coordenadasLinea.add(coordenada2);
-					MapPolygonImpl linea = new MapPolygonImpl(coordenadasLinea);
-					linea.setColor(Color.black); // Cambiar el color de la línea
-
-					int coor1 = comboBoxCiudad1.getSelectedItem().hashCode();
-					int coor2 = comboBoxCiudad2.getSelectedItem().hashCode();
-
-					grafo.agregarVertice(coor1);
-					grafo.agregarVertice(coor2);
-					grafo.agregarArista(coor1, coor2, similaridad);
-
-					SimilaridadCoordenadas pesoCoordenadas = new SimilaridadCoordenadas(coordenada1, coordenada2,
-							similaridad);
-					similaridadCoordenadas.add(pesoCoordenadas);
-
-					double latitudMedia = (coordenada1.getLat() + coordenada2.getLat()) / 2;
-					double longitudMedia = (coordenada1.getLon() + coordenada2.getLon()) / 2;
-					Coordinate puntoMedio = new Coordinate(latitudMedia, longitudMedia);
-					MapMarkerDot marker = new MapMarkerDot(String.valueOf(similaridad), puntoMedio);
-					marker.setColor(new Color(0, 0, 0, 0));
-					marker.setBackColor(new Color(0, 0, 0, 0));
-					ciudad1.setSimilaridad(similaridad);
-					ciudad2.setSimilaridad(similaridad);
-
-					// Agregar el marcador al mapa
-					mapa.addMapMarker(marker);
-
-					// Agregar la línea al mapa
-					mapa.addMapPolygon(linea);
-				} catch (Exception e) {
-					JOptionPane.showMessageDialog(diseñandoRegiones, "Ocurrió un error: " + e.getMessage());
-				}
-			}
-		});
+//		btnCrearArista.addActionListener(new ActionListener() {			
+//			public void actionPerformed(ActionEvent arg0) {
+//				Ciudades ciudad1 = ciudades.get(comboBoxCiudad1.getSelectedIndex());
+//				Coordinate coordenada1 = ciudad1.consultarCoordenada();
+//				Ciudades ciudad2 = ciudades.get(comboBoxCiudad2.getSelectedIndex());
+//				Coordinate coordenada2 = ciudad2.consultarCoordenada();
+//				
+//				if (ciudad1.equals(ciudad2)) {
+//		            JOptionPane.showMessageDialog(diseñandoRegiones, "No se permite crear un loop. Seleccione diferentes ciudades para origen y destino.");
+//		            return;
+//		        }
+//				ArrayList<Coordinate> coordenadasLinea = new ArrayList<>();
+//				coordenadasLinea.add(coordenada1);
+//				coordenadasLinea.add(coordenada2);
+//				coordenadasLinea.add(coordenada2);
+//				MapPolygonImpl linea = new MapPolygonImpl(coordenadasLinea);
+//				linea.setColor(Color.black); 
+//
+//				int similaridad = Integer.parseInt(indiceSimilitud.getText());
+//				int coor1 = comboBoxCiudad1.getSelectedItem().hashCode();
+//				int coor2 = comboBoxCiudad2.getSelectedItem().hashCode();
+//
+//				grafo.agregarVertice(coor1);
+//				grafo.agregarVertice(coor2);
+//				
+//				grafo.agregarArista(coor1,coor2, similaridad);
+//
+//				SimilaridadCoordenadas pesoCoordenadas = new SimilaridadCoordenadas(coordenada1, coordenada2, similaridad);
+//				similaridadCoordenadas.add(pesoCoordenadas);
+//
+//				double latitudMedia = (coordenada1.getLat() + coordenada2.getLat()) / 2;
+//				double longitudMedia = (coordenada1.getLon() + coordenada2.getLon()) / 2;
+//				Coordinate puntoMedio = new Coordinate(latitudMedia, longitudMedia);
+//				MapMarkerDot marker = new MapMarkerDot(String.valueOf(similaridad), puntoMedio);
+//				marker.setColor(new Color(0, 0, 0, 0));
+//				marker.setBackColor(new Color(0, 0, 0, 0));
+//				ciudad1.setSimilaridad(similaridad);
+//				ciudad2.setSimilaridad(similaridad);
+//
+//				// Agregar el marcador al mapa
+//				mapa.addMapMarker(marker);
+//
+//				// Agregar la línea al mapa
+//				mapa.addMapPolygon(linea);
+//	
+//		}
+//		});
 
 		mapa.setDisplayPosition(coordenadaInicial, 4);
 
 		similaridadCoordenadas = new ArrayList<>();
 		detectarVertices();
 		// agregarCiudades();
+		dibujarArista();
 		AGM();
 		crearRegiones();
-
 	}
 
 	public void mostrarVentanaPrincipal() {
@@ -276,8 +247,63 @@ public class Main {
 		});
 	}
 
-//	private void dibujarArista() {
-//	}
+	private void dibujarArista() {
+
+		btnCrearArista.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Ciudades ciudad1 = ciudades.get(comboBoxCiudad1.getSelectedIndex());
+				Coordinate coordenada1 = ciudad1.consultarCoordenada();
+				Ciudades ciudad2 = ciudades.get(comboBoxCiudad2.getSelectedIndex());
+				Coordinate coordenada2 = ciudad2.consultarCoordenada();
+
+				if (ciudad1.equals(ciudad2)) {
+					JOptionPane.showMessageDialog(diseñandoRegiones,
+							"No se permite crear un loop. Seleccione diferentes ciudades para origen y destino.");
+					return;
+				}
+				ArrayList<Coordinate> coordenadasLinea = new ArrayList<>();
+				coordenadasLinea.add(coordenada1);
+				coordenadasLinea.add(coordenada2);
+				coordenadasLinea.add(coordenada2);
+				MapPolygonImpl linea = new MapPolygonImpl(coordenadasLinea);
+				linea.setColor(Color.black);
+
+                int similaridad = Integer.parseInt(indiceSimilitud.getText());
+                if (similaridad < 1) {
+                    JOptionPane.showMessageDialog(diseñandoRegiones,
+                            "Ingrese una similaridad mayor o igual a 1.");
+                    return;
+                }
+				int coor1 = comboBoxCiudad1.getSelectedItem().hashCode();
+				int coor2 = comboBoxCiudad2.getSelectedItem().hashCode();
+
+				grafo.agregarVertice(coor1);
+				grafo.agregarVertice(coor2);
+
+				grafo.agregarArista(coor1, coor2, similaridad);
+
+				SimilaridadCoordenadas pesoCoordenadas = new SimilaridadCoordenadas(coordenada1, coordenada2,
+						similaridad);
+				similaridadCoordenadas.add(pesoCoordenadas);
+
+				double latitudMedia = (coordenada1.getLat() + coordenada2.getLat()) / 2;
+				double longitudMedia = (coordenada1.getLon() + coordenada2.getLon()) / 2;
+				Coordinate puntoMedio = new Coordinate(latitudMedia, longitudMedia);
+				MapMarkerDot marker = new MapMarkerDot(String.valueOf(similaridad), puntoMedio);
+				marker.setColor(new Color(0, 0, 0, 0));
+				marker.setBackColor(new Color(0, 0, 0, 0));
+				ciudad1.setSimilaridad(similaridad);
+				ciudad2.setSimilaridad(similaridad);
+
+				// Agregar el marcador al mapa
+				mapa.addMapMarker(marker);
+
+				// Agregar la línea al mapa
+				mapa.addMapPolygon(linea);
+
+			}
+		});
+	}
 //
 //	private void agregarCiudades() {
 //
@@ -285,96 +311,91 @@ public class Main {
 //	}
 
 	public void AGM() {
-	    btnAGM.addActionListener(new ActionListener() {
-	        public void actionPerformed(ActionEvent arg0) {
-	            if (grafo.consultarVertices().isEmpty()) {
-	                JOptionPane.showMessageDialog(diseñandoRegiones, "El grafo es vacío. No se puede generar un AGM.");
-	                return;
-	            }
+		btnAGM.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				grafoAGM = new GrafoPonderado();
 
-	            grafoAGM = new GrafoPonderado();
+				if (grafo.consultarVertices().isEmpty()) {
+					JOptionPane.showMessageDialog(diseñandoRegiones, "El grafo es vacío. No se puede generar un AGM.");
+					return;
+				}
 
-	            for (int vertice : grafo.consultarVertices()) {
-	                grafoAGM.agregarVertice(vertice);
-	            }
+//				for (Provincia provincia : provincias.values()) {
+//				 grafoAGM.agregarProvincia(provincia);
+//			}
 
-	            for (Arista arista : grafo.consultarAristas()) {
-	                grafoAGM.agregarArista(arista.consultarOrigen(), arista.consultarDestino(), arista.consultarSimilaridad());
-	            }
+				for (int vertice : grafo.consultarVertices()) {
+					grafoAGM.agregarVertice(vertice);
+				}
 
-	            try {
-	                Kruskal kruskal = new Kruskal(grafoAGM);
-	                aristasAGM = kruskal.obtenerAGM().consultarAristas();
+				for (Arista arista : grafo.consultarAristas()) {
+					grafoAGM.agregarArista(arista.consultarOrigen(), arista.consultarDestino(),
+							arista.consultarSimilaridad());
+				}
 
-	                for (Arista aristaAGM : aristasAGM) {
-	                    ArrayList<Coordinate> coordenadasLineaAGM = new ArrayList<>();
-	                    int coordenadaOrigen = kruskal.obtenerAGM().consultarVertices().indexOf(aristaAGM.consultarOrigen());
-	                    int coordenadaDestino = kruskal.obtenerAGM().consultarVertices().indexOf(aristaAGM.consultarDestino());
-	                    coordenadasLineaAGM.add(ciudades.get(coordenadaOrigen).consultarCoordenada());
-	                    coordenadasLineaAGM.add(ciudades.get(coordenadaDestino).consultarCoordenada());
-	                    coordenadasLineaAGM.add(ciudades.get(coordenadaDestino).consultarCoordenada());
-	                    MapPolygonImpl linea = new MapPolygonImpl(coordenadasLineaAGM);
-	                    linea.setColor(Color.RED);
-	                    mapa.addMapPolygon(linea);
-	                }
-	            } catch (IllegalArgumentException e) {
-	                JOptionPane.showMessageDialog(diseñandoRegiones, "No se puede generar un AGM: " + e.getMessage());
-	            }
-	        }
-	    });
+				Kruskal kruskal = new Kruskal(grafoAGM);
+				aristasAGM = kruskal.obtenerAGM().consultarAristas();
+
+				for (Arista aristaAGM : aristasAGM) {
+					ArrayList<Coordinate> coordenadasLineaAGM = new ArrayList<>();
+					int coordenadaOrigen = kruskal.obtenerAGM().consultarVertices()
+							.indexOf(aristaAGM.consultarOrigen());
+					int coordenadaDestino = kruskal.obtenerAGM().consultarVertices()
+							.indexOf(aristaAGM.consultarDestino());
+					coordenadasLineaAGM.add(ciudades.get(coordenadaOrigen).consultarCoordenada());
+					coordenadasLineaAGM.add(ciudades.get(coordenadaDestino).consultarCoordenada());
+					coordenadasLineaAGM.add(ciudades.get(coordenadaDestino).consultarCoordenada());
+					MapPolygonImpl linea = new MapPolygonImpl(coordenadasLineaAGM);
+					linea.setColor(Color.RED);
+					mapa.addMapPolygon(linea);
+				}
+
+			}
+		});
 	}
 
-
 	private void crearRegiones() {
-	    btnSepararRegiones.addActionListener(new ActionListener() {
-	        public void actionPerformed(ActionEvent arg0) {
-	            try {
-	                int eliminarAristas = Integer.parseInt(textField_Regiones.getText()) - 1;
-	                if (eliminarAristas < 1) {
-	                    JOptionPane.showMessageDialog(diseñandoRegiones, "Por favor, ingrese un número válido.");
-	                    return;
-	                }
+		btnSepararRegiones.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
 
-	                if (aristasAGM.isEmpty()) {
-	                    JOptionPane.showMessageDialog(diseñandoRegiones, "No hay aristas en el AGM para dividir.");
-	                    return;
-	                }
+				int eliminarAristas = Integer.parseInt(textField_Regiones.getText()) - 1;
+				if (eliminarAristas < 1) {
+					JOptionPane.showMessageDialog(diseñandoRegiones, "Por favor, ingrese un número válido.");
+					return;
+				}
 
-	                for (int j = 1; j <= eliminarAristas; j++) {
-	                    if (aristasAGM.isEmpty()) {
-	                        JOptionPane.showMessageDialog(diseñandoRegiones, "No hay suficientes aristas en el AGM para dividir en las regiones deseadas.");
-	                        return;
-	                    }
-	                    Arista aristaDeMayorPeso = aristasAGM.get(0);
-	                    int indice = 0;
-	                    for (int i = 0; i < aristasAGM.size(); i++) {
-	                        Arista aristaAGM = aristasAGM.get(i);
-	                        if (aristaAGM.consultarSimilaridad() > aristaDeMayorPeso.consultarSimilaridad()) {
-	                            aristaDeMayorPeso = aristaAGM;
-	                            indice = i;
-	                        }
-	                    }
-	                    aristasAGM.remove(indice);
-	                }
+				if (aristasAGM.isEmpty()) {
+					JOptionPane.showMessageDialog(diseñandoRegiones, "No hay aristas en el AGM para dividir.");
+					return;
+				}
 
-	                mapa.removeAllMapPolygons();
+				for (int j = 1; j <= eliminarAristas; j++) {
+					Arista aristaDeMayorPeso = aristasAGM.get(0);
+					int indice = 0;
+					for (int i = 0; i < aristasAGM.size(); i++) {
+						Arista aristaAGM = aristasAGM.get(i);
+						if (aristaAGM.consultarSimilaridad() > aristaDeMayorPeso.consultarSimilaridad()) {
+							aristaDeMayorPeso = aristaAGM;
+							indice = i;
+						}
+					}
+					aristasAGM.remove(indice);
+				}
 
-	                for (Arista aristaAGM : aristasAGM) {
-	                    ArrayList<Coordinate> coordenadasLineaAGM = new ArrayList<>();
-	                    coordenadasLineaAGM.add(ciudades.get(aristaAGM.consultarOrigen()).consultarCoordenada());
-	                    coordenadasLineaAGM.add(ciudades.get(aristaAGM.consultarDestino()).consultarCoordenada());
-	                    coordenadasLineaAGM.add(ciudades.get(aristaAGM.consultarDestino()).consultarCoordenada());
-	                    MapPolygonImpl linea = new MapPolygonImpl(coordenadasLineaAGM);
-	                    linea.setColor(Color.MAGENTA);
-	                    mapa.addMapPolygon(linea);
-	                }
-	            } catch (NumberFormatException e) {
-	                JOptionPane.showMessageDialog(diseñandoRegiones, "Por favor, ingrese un número válido.");
-	            } catch (NullPointerException e) {
-	                JOptionPane.showMessageDialog(diseñandoRegiones, "Ha ocurrido un error. Asegúrese de que todas las ciudades y aristas estén correctamente definidas.");
-	            }
-	        }
-	    });
+				mapa.removeAllMapPolygons();
+
+				for (Arista aristaAGM : aristasAGM) {
+					ArrayList<Coordinate> coordenadasLineaAGM = new ArrayList<>();
+					coordenadasLineaAGM.add(ciudades.get(aristaAGM.consultarOrigen()).consultarCoordenada());
+					coordenadasLineaAGM.add(ciudades.get(aristaAGM.consultarDestino()).consultarCoordenada());
+					coordenadasLineaAGM.add(ciudades.get(aristaAGM.consultarDestino()).consultarCoordenada());
+					MapPolygonImpl linea = new MapPolygonImpl(coordenadasLineaAGM);
+					linea.setColor(Color.MAGENTA);
+					mapa.addMapPolygon(linea);
+				}
+
+			}
+		});
 	}
 
 }
