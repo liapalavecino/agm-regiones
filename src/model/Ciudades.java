@@ -6,7 +6,7 @@ public class Ciudades {
 
 	private Coordinate coor;
 	private String nombre;
-	private int similaridad;
+	private double similaridad;
 	
 	
 	public Ciudades(Coordinate coor) {
@@ -25,11 +25,11 @@ public class Ciudades {
 		return this.nombre;
 	}
 
-	public int consultarSimilaridad() {
+	public double consultarSimilaridad() {
 		return similaridad;
 	}
 
-	public void setSimilaridad(int similaridad) {
+	public void agregarSimilaridad(double similaridad) {
 		this.similaridad = similaridad;
 	}
 	

@@ -31,16 +31,16 @@ public class GrafoPonderadoTest {
     @Test
     public void testAgregarArista() {
         grafoPonderado.agregarArista(0, 2, 60);
-        assertEquals(60, grafoPonderado.getPesoArista(0, 2));
+        assertEquals(60, grafoPonderado.obtenerPesoArista(0, 2));
     }
 
     @Test
     public void testGetPesoArista() {
-        assertEquals(10, grafoPonderado.getPesoArista(0, 1));
-        assertEquals(20, grafoPonderado.getPesoArista(1, 2));
-        assertEquals(30, grafoPonderado.getPesoArista(2, 3));
-        assertEquals(40, grafoPonderado.getPesoArista(3, 4));
-        assertEquals(50, grafoPonderado.getPesoArista(4, 0));
+        assertEquals(10, grafoPonderado.obtenerPesoArista(0, 1));
+        assertEquals(20, grafoPonderado.obtenerPesoArista(1, 2));
+        assertEquals(30, grafoPonderado.obtenerPesoArista(2, 3));
+        assertEquals(40, grafoPonderado.obtenerPesoArista(3, 4));
+        assertEquals(50, grafoPonderado.obtenerPesoArista(4, 0));
     }
 
     @Test

@@ -22,7 +22,7 @@ public class GrafoPonderado extends Grafo {
 		}
 	}
 
-	public double getPesoArista(int origen, int destino) {
+	public double obtenerPesoArista(int origen, int destino) {
 		for (int i = 0; i < aristas.size(); i++) {
 			if ((aristas.get(i).consultarOrigen() == origen && aristas.get(i).consultarDestino() == destino)
 					|| (aristas.get(i).consultarOrigen() == destino && aristas.get(i).consultarDestino() == origen)) {

@@ -49,14 +49,14 @@ public class Kruskal {
 	}
 
 	private boolean formaCiclo(Arista e) {
-		int coordenadaOrigen = grafoOriginal.consultarVertices().indexOf(e.consultarOrigen());
-		int coordenadaDestino = grafoOriginal.consultarVertices().indexOf(e.consultarDestino());
+		int coordenadaOrigen = grafoOriginal.obtenerIndiceDelVertice(e.consultarOrigen());
+		int coordenadaDestino = grafoOriginal.obtenerIndiceDelVertice(e.consultarDestino());
 		return elementosUnionFind.find(coordenadaOrigen, coordenadaDestino);
 	}
 
 	private void agregarArista(Arista e) {
-		int coordenadaOrigen = grafoOriginal.consultarVertices().indexOf(e.consultarOrigen());
-		int coordenadaDestino = grafoOriginal.consultarVertices().indexOf(e.consultarDestino());
+		int coordenadaOrigen = grafoOriginal.obtenerIndiceDelVertice(e.consultarOrigen());
+		int coordenadaDestino = grafoOriginal.obtenerIndiceDelVertice(e.consultarDestino());
 		arbolGeneradorMinimo.agregarArista(e.consultarOrigen(), e.consultarDestino(), e.consultarSimilaridad());
 		elementosUnionFind.unir(coordenadaOrigen, coordenadaDestino);
 	}

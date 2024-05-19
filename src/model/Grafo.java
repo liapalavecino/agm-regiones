@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 public class Grafo {
 
@@ -28,8 +29,8 @@ public class Grafo {
 
 	public void agregarArista(int origen, int destino) {
 		validarArista(origen, destino);
-		LVecinos.get(vertices.indexOf(origen)).add(destino);
-		LVecinos.get(vertices.indexOf(destino)).add(origen);
+		LVecinos.get(obtenerIndiceDelVertice(origen)).add(destino);
+		LVecinos.get(obtenerIndiceDelVertice(destino)).add(origen);
 	}
 
 	private void validarArista(int origen, int destino) {
@@ -65,11 +66,11 @@ public class Grafo {
 	}
 
 	public boolean existeArista(int origen, int destino) {
-		return !LVecinos.isEmpty() && LVecinos.get(vertices.indexOf(origen)).contains(destino);
+		return !LVecinos.isEmpty() && LVecinos.get(obtenerIndiceDelVertice(origen)).contains(destino);
 	}
 
 	public HashSet<Integer> obtenerVecinosDe(int vertice) {
-		return LVecinos.get(vertices.indexOf(vertice));
+		return LVecinos.get(obtenerIndiceDelVertice(vertice));
 	}
 	
 	public ArrayList<HashSet<Integer>> obtenerVecinos() {
@@ -77,13 +78,31 @@ public class Grafo {
 	}
 	
 	public int contarVertices() {
-		int contador = 0;
-		for (HashSet<Integer> conjunto : LVecinos) 
-			for (Integer vertice : conjunto) 
-				contador++;
-		return contador;
-		
+	    int contador = 0;
+	    for (HashSet<Integer> conjunto : LVecinos) {
+	        contador += conjunto.size();
+	    }
+	    return contador;
 	}
+	
+	public void eliminarArista(int origen, int destino) {
+	    if (!existeArista(origen, destino)) {
+	        throw new IllegalArgumentException("La arista no existe.");
+	    }
+	    LVecinos.get(obtenerIndiceDelVertice(origen)).remove(destino);
+	    LVecinos.get(obtenerIndiceDelVertice(destino)).remove(origen);
+	}
+
+	public void agregarVertice(int coordenada) {
+		LVecinos.add(new HashSet<>());
+		if( obtenerIndiceDelVertice(coordenada) == -1) {
+			vertices.add(coordenada);	
+		}		
+	}
+	
+    public int obtenerIndiceDelVertice(int unVertice) {
+        return vertices.indexOf(unVertice);
+    }
 	
 	@Override
 	public boolean equals(Object obj) {
@@ -96,21 +115,4 @@ public class Grafo {
 		}
 		return true;
 	}
-
-	
-	public void eliminarArista(int origen, int destino) {
-	    if (!existeArista(origen, destino)) {
-	        throw new IllegalArgumentException("La arista no existe.");
-	    }
-	    LVecinos.get(vertices.indexOf(origen)).remove(destino);
-	    LVecinos.get(vertices.indexOf(destino)).remove(origen);
-	}
-
-	public void agregarVertice(int coordenada) {
-		LVecinos.add(new HashSet<>());
-		if( vertices.indexOf(coordenada) == -1) {
-			vertices.add(coordenada);	
-		}		
-	}
-	
 }

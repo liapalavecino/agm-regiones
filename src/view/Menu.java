@@ -67,7 +67,7 @@ public class Menu {
 		ventana.setPreferredSize(new Dimension(600, 475));
 		ventana.getContentPane().setBackground(new Color(0, 0, 0));
 		ventana.setTitle("Diseñando regiones");
-		ventana.setBounds(100, 100, 601, 475);
+		ventana.setBounds(410,  160, 750, 500);
 		ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		ventana.getContentPane().setLayout(null);
 		ventana.setLocationRelativeTo(null);
@@ -84,7 +84,9 @@ public class Menu {
 	    botonIniciar = new JButton("Iniciar");
 	    botonIniciar.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
-	            ventana.setVisible(false);
+	        	frame = new JFrame();        	
+	        	frame.setResizable(false);
+	        	ventana.setVisible(false);
 	            Main main = new Main();
 	            main.mostrarVentanaPrincipal();
 	        }
@@ -92,7 +94,7 @@ public class Menu {
 	    
 	    botonIniciar.setFocusable(false);
 	    botonIniciar.setAlignmentX(Component.CENTER_ALIGNMENT);
-	    botonIniciar.setBounds(222, 175, 149, 42);
+	    botonIniciar.setBounds(315, 337, 149, 42);
 	    ventana.getContentPane().add(botonIniciar);
 	}
 

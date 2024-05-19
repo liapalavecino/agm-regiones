@@ -40,7 +40,7 @@ public class BFS {
 	
 	private static void agregarVecinosPendientes(Grafo g, int vertice) {
 		for (int vecino : g.obtenerVecinosDe(vertice))
-			if (!marcados[g.consultarVertices().indexOf(vecino)] && !L.contains(vecino))			
+			if (!marcados[g.obtenerIndiceDelVertice(vecino)] && !L.contains(vecino))			
 				L.add(vecino);										
 	}
 		
