@@ -363,8 +363,4 @@ public class Main {
 		mapa.addMapPolygon(linea);
 	}
 
-	public void mostrarVentanaPrincipal() {
-		diseñandoRegiones.setVisible(true);
-	}
-
 }
