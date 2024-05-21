@@ -7,6 +7,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
-	<classpathentry kind="lib" path="/tp2-regiones-agm/JMapViewer.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Hogar/tp2-regiones-agm/JMapViewer.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
