@@ -161,14 +161,14 @@ public class Main {
 
 		similaridadCoordenadas = new ArrayList<>();
 
-		btnLimpiar = new JButton(new ImageIcon("src/view/wipe.png")); 
-        btnLimpiar.setBounds(10, 423, 30, 30); 
+		btnLimpiar = new JButton(new ImageIcon("src/view/wipe.png"));
+		btnLimpiar.setBounds(10, 423, 30, 30);
 		diseñandoRegiones.getContentPane().add(btnLimpiar);
-        btnLimpiar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                limpiar();
-            }
-        });
+		btnLimpiar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				limpiar();
+			}
+		});
 		detectarVertices();
 		dibujarArista();
 		AGM();
@@ -376,26 +376,21 @@ public class Main {
 	}
 
 	private void limpiar() {
-	    // Limpiar los datos del grafo
-	    grafo = new GrafoPonderado();
-	    grafoAGM = new GrafoPonderado();
-	    aristasAGM = new ArrayList<>();
-	    similaridadCoordenadas = new ArrayList<>();
-	    aristasPosibleDeEliminacion = new ArrayList<>();
+		grafo = new GrafoPonderado();
+		grafoAGM = new GrafoPonderado();
+		aristasAGM = new ArrayList<>();
+		similaridadCoordenadas = new ArrayList<>();
+		aristasPosibleDeEliminacion = new ArrayList<>();
 
-	    // Limpiar los datos del mapa
-	    mapa.removeAllMapMarkers();
-	    mapa.removeAllMapPolygons();
+		mapa.removeAllMapMarkers();
+		mapa.removeAllMapPolygons();
 
-	    // Limpiar los componentes de la interfaz
-	    comboBoxCiudad1.removeAllItems();
-	    comboBoxCiudad2.removeAllItems();
-	    indiceSimilitud.setText("");
-	    textField_Regiones.setText("");
+		comboBoxCiudad1.removeAllItems();
+		comboBoxCiudad2.removeAllItems();
+		indiceSimilitud.setText("");
+		textField_Regiones.setText("");
 
-	    // Limpiar las ciudades
-	    ciudades.clear();
+		ciudades.clear();
 	}
-
 
 }

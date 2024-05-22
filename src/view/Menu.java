@@ -14,7 +14,6 @@ import javax.swing.UIManager;
 
 public class Menu {
 
-	private JFrame frame;
 	private JFrame ventana;
 	private Main ventanaMapa;
 	private JButton botonIniciar;
