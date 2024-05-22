@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -49,6 +50,8 @@ public class Main {
 	private JTextField textField_Regiones;
 	private JButton btnSepararRegiones;
 	private List<MapMarker> aristasPosibleDeEliminacion;
+
+	private JButton btnLimpiar;
 
 	/**
 	 * Launch the application.
@@ -151,18 +154,25 @@ public class Main {
 		diseñandoRegiones.getContentPane().add(btnSepararRegiones);
 		btnCrearArista = new JButton("Agregar");
 		btnCrearArista.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnCrearArista.setBounds(90, 178, 94, 23);
+		btnCrearArista.setBounds(90, 200, 94, 23);
 		diseñandoRegiones.getContentPane().add(btnCrearArista);
 
 		mapa.setDisplayPosition(coordenadaInicial, 4);
 
 		similaridadCoordenadas = new ArrayList<>();
 
+		btnLimpiar = new JButton(new ImageIcon("src/view/wipe.png")); 
+        btnLimpiar.setBounds(10, 423, 30, 30); 
+		diseñandoRegiones.getContentPane().add(btnLimpiar);
+        btnLimpiar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                limpiar();
+            }
+        });
 		detectarVertices();
 		dibujarArista();
 		AGM();
 		separarRegiones();
-
 	}
 
 	private void detectarVertices() {
@@ -246,74 +256,76 @@ public class Main {
 	}
 
 	private void AGM() {
-        btnAGM.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
-                grafoAGM = new GrafoPonderado();
+		btnAGM.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				grafoAGM = new GrafoPonderado();
 
-                if (grafo.consultarVertices().isEmpty()) {
-                    JOptionPane.showMessageDialog(diseñandoRegiones, "El grafo es vacío. No se puede generar un AGM.");
-                    return;
-                }
-
-                for (int vertice : grafo.consultarVertices()) {
-                    grafoAGM.agregarVertice(vertice);
-                }
-
-                for (Arista arista : grafo.consultarAristas()) {
-                    grafoAGM.agregarArista(arista.consultarOrigen(), arista.consultarDestino(),
-                            arista.consultarSimilaridad());
-                }
-
-                Kruskal kruskal = new Kruskal(grafoAGM);
-                aristasAGM = kruskal.obtenerAGM().consultarAristas();
-
-                limpiarMarkersArista();
-
-                procesarAristas(aristasAGM, grafoAGM, ciudades, Color.RED);
-            }
-
-        });
-       }
-        
-	private void separarRegiones() {
-        btnSepararRegiones.addActionListener(new ActionListener() {
-
-        public void actionPerformed(ActionEvent arg0) {
-		int eliminarAristas = Integer.parseInt(textField_Regiones.getText()) - 1;
-		if (eliminarAristas < 1) {
-			JOptionPane.showMessageDialog(diseñandoRegiones, "Por favor, ingrese un número válido.");
-			return;
-		}
-
-		if (aristasAGM.isEmpty()) {
-			JOptionPane.showMessageDialog(diseñandoRegiones, "No hay aristas en el AGM para separar.");
-			return;
-		}
-
-		for (int j = 0; j < eliminarAristas; j++) {
-			Arista aristaDeMayorPeso = aristasAGM.get(0);
-			int indice = 0;
-			for (int i = 0; i < aristasAGM.size(); i++) {
-				Arista aristaAGM = aristasAGM.get(i);
-				if (aristaAGM.consultarSimilaridad() > aristaDeMayorPeso.consultarSimilaridad()) {
-					aristaDeMayorPeso = aristaAGM;
-					indice = i;
+				if (grafo.consultarVertices().isEmpty()) {
+					JOptionPane.showMessageDialog(diseñandoRegiones, "El grafo es vacío. No se puede generar un AGM.");
+					return;
 				}
+
+				for (int vertice : grafo.consultarVertices()) {
+					grafoAGM.agregarVertice(vertice);
+				}
+
+				for (Arista arista : grafo.consultarAristas()) {
+					grafoAGM.agregarArista(arista.consultarOrigen(), arista.consultarDestino(),
+							arista.consultarSimilaridad());
+				}
+
+				Kruskal kruskal = new Kruskal(grafoAGM);
+				aristasAGM = kruskal.obtenerAGM().consultarAristas();
+
+				limpiarMarkersArista();
+
+				procesarAristas(aristasAGM, grafoAGM, ciudades, Color.RED);
 			}
-			aristasAGM.remove(indice);
-		}
 
-		limpiarMarkersArista();
-
-		procesarAristas(aristasAGM, grafoAGM, ciudades, Color.MAGENTA);
+		});
 	}
 
-	});
-	
-	
-	diseñandoRegiones.setVisible(true);
+	private void separarRegiones() {
+		btnSepararRegiones.addActionListener(new ActionListener() {
 
-	ciudades=new HashMap<>();similaridadCoordenadas=new ArrayList<>();aristasPosibleDeEliminacion=new ArrayList<>();}
+			public void actionPerformed(ActionEvent arg0) {
+				int eliminarAristas = Integer.parseInt(textField_Regiones.getText()) - 1;
+				if (eliminarAristas < 1) {
+					JOptionPane.showMessageDialog(diseñandoRegiones, "Por favor, ingrese un número válido.");
+					return;
+				}
+
+				if (aristasAGM.isEmpty()) {
+					JOptionPane.showMessageDialog(diseñandoRegiones, "No hay aristas en el AGM para separar.");
+					return;
+				}
+
+				for (int j = 0; j < eliminarAristas; j++) {
+					Arista aristaDeMayorPeso = aristasAGM.get(0);
+					int indice = 0;
+					for (int i = 0; i < aristasAGM.size(); i++) {
+						Arista aristaAGM = aristasAGM.get(i);
+						if (aristaAGM.consultarSimilaridad() > aristaDeMayorPeso.consultarSimilaridad()) {
+							aristaDeMayorPeso = aristaAGM;
+							indice = i;
+						}
+					}
+					aristasAGM.remove(indice);
+				}
+
+				limpiarMarkersArista();
+
+				procesarAristas(aristasAGM, grafoAGM, ciudades, Color.MAGENTA);
+			}
+
+		});
+
+		diseñandoRegiones.setVisible(true);
+
+		ciudades = new HashMap<>();
+		similaridadCoordenadas = new ArrayList<>();
+		aristasPosibleDeEliminacion = new ArrayList<>();
+	}
 
 	public void procesarAristas(List<Arista> aristasAGM, Grafo grafoAGM, Map<Integer, Ciudades> ciudades, Color color) {
 		for (Arista aristaAGM : aristasAGM) {
@@ -362,5 +374,28 @@ public class Main {
 
 		mapa.addMapPolygon(linea);
 	}
+
+	private void limpiar() {
+	    // Limpiar los datos del grafo
+	    grafo = new GrafoPonderado();
+	    grafoAGM = new GrafoPonderado();
+	    aristasAGM = new ArrayList<>();
+	    similaridadCoordenadas = new ArrayList<>();
+	    aristasPosibleDeEliminacion = new ArrayList<>();
+
+	    // Limpiar los datos del mapa
+	    mapa.removeAllMapMarkers();
+	    mapa.removeAllMapPolygons();
+
+	    // Limpiar los componentes de la interfaz
+	    comboBoxCiudad1.removeAllItems();
+	    comboBoxCiudad2.removeAllItems();
+	    indiceSimilitud.setText("");
+	    textField_Regiones.setText("");
+
+	    // Limpiar las ciudades
+	    ciudades.clear();
+	}
+
 
 }
